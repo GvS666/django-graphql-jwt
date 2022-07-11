@@ -15,7 +15,10 @@ __all__ = [
 
 def allow_any(info, **kwargs):
     operation_name = get_operation_name(info.operation.operation).title()
-    field = info.schema.get_type(operation_name).fields.get(info.field_name)
+    if operation_name == 'Query':
+        field = info.schema.get_type('AllQueries').fields.get(info.field_name)
+    else:
+        field = info.schema.get_type('AllMutations').fields.get(info.field_name)
 
     if field is None:
         return False
